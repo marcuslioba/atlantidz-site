@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Atlantidz | Barraca e Parque Aquático na Praia do Futuro</title>
+<meta name="description" content="Um dia inteiro na Atlantidz, desde 2004 na Praia do Futuro, em Fortaleza: café da manhã, Atlantinho Park com os maiores toboáguas da orla, almoço de frente pro mar e salões para eventos. Garanta sua pulseira.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap">
+<style>
+/* Conceito: "Um dia inteiro de Atlantidz". A rolagem é o relógio (8h às 18h) e o fundo é um dia filmado de verdade:
+   nascer do sol, meio-dia, tarde, luz dourada e pôr do sol. Foto primeiro, com efeitos ao toque e ao passar do mouse. */
+:root{
+  --tinta:#0a2236; --tinta2:#2a4452; --turq:#0b8ea3; --turq-esc:#04505f; --coral:#e2603f; --coral-esc:#b3401d;
+  --areia:#f4ecd9; --branco:#fff; --verde:#0f7a3f;
+  --serif:"Cormorant Garamond",Georgia,serif; --sans:"Jost",system-ui,sans-serif;
+  --gl:max(18px,env(safe-area-inset-left,0px)); --gr:max(18px,env(safe-area-inset-right,0px));
+}
+*{box-sizing:border-box}
+html{background:linear-gradient(180deg,#fbf3e4,#e4f3f2) fixed #e4f3f2;scroll-padding-top:84px}
+body{margin:0;background:transparent;color:var(--tinta);font-family:var(--sans);font-weight:300;font-size:17px;line-height:1.65}
+main{overflow-x:clip}
+h1,h2,h3,p,figure,ul,dl,dd{margin:0}
+ul{padding:0;list-style:none}
+img{display:block;max-width:100%}
+a{color:inherit}
+button{font:inherit}
+[hidden]{display:none !important}
+:focus-visible{outline:3px solid var(--turq-esc);outline-offset:3px}
+.in{max-width:1200px;margin:0 auto;padding-left:var(--gl);padding-right:var(--gr)}
+.selo{display:inline-flex;align-items:center;gap:12px;font-weight:500;font-size:.74rem;letter-spacing:.28em;text-transform:uppercase;color:var(--turq-esc)}
+.selo::before{content:"";width:30px;height:1px;background:currentColor}
+.selo b{font-family:var(--serif);font-weight:600;font-size:1.5rem;letter-spacing:0;text-transform:none;color:var(--coral-esc);line-height:1}
+.t{font-family:var(--serif);font-weight:500;letter-spacing:-.015em;line-height:1.02;text-wrap:balance}
+.t em{font-style:italic;font-weight:500;color:var(--turq-esc)}
+
+/* ===== botões com vida: brilho que passa, subida, afundar ao clicar e onda ao toque ===== */
+.btn{position:relative;overflow:hidden;isolation:isolate;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:14px 30px;border-radius:999px;background:var(--coral-esc);color:#fff;font-weight:500;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;border:1px solid transparent;cursor:pointer;transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s,background .25s;box-shadow:0 12px 26px -14px rgba(179,64,29,.75)}
+.btn::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.42) 50%,transparent 70%);transform:translateX(-130%);transition:transform .8s ease}
+.btn:hover{transform:translateY(-3px) scale(1.02);background:#9c3516;box-shadow:0 18px 30px -14px rgba(179,64,29,.8)}
+.btn:hover::after{transform:translateX(130%)}
+.btn:active{transform:translateY(0) scale(.97);transition-duration:.08s}
+.btn .onda{position:absolute;z-index:-1;border-radius:50%;background:rgba(255,255,255,.5);transform:scale(0);animation:onda .65s ease-out forwards;pointer-events:none}
+@keyframes onda{to{transform:scale(1);opacity:0}}
+.btn.contorno{background:rgba(255,255,255,.55);color:var(--tinta);border-color:var(--tinta);box-shadow:none;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.btn.contorno:hover{background:var(--tinta);color:#fff;box-shadow:0 14px 26px -16px rgba(10,34,54,.7)}
+.btn.zap{background:var(--verde);box-shadow:0 12px 26px -14px rgba(15,122,63,.75)}
+.btn.zap:hover{background:#0b6232}
+.btn.pulsa{animation:pulso 2.8s ease-out infinite}
+@keyframes pulso{0%{box-shadow:0 12px 26px -14px rgba(179,64,29,.75),0 0 0 0 rgba(179,64,29,.45)}70%,100%{box-shadow:0 12px 26px -14px rgba(179,64,29,.75),0 0 0 16px rgba(179,64,29,0)}}
+
+/* ===== painéis com brilho que segue o dedo ou o mouse ===== */
+.painel{position:relative;background:rgba(255,255,255,.80);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.75);box-shadow:0 24px 50px -32px rgba(10,34,54,.5);transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s}
+.painel::before{content:"";position:absolute;inset:0;background:radial-gradient(280px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.7),transparent 62%);opacity:0;transition:opacity .3s;pointer-events:none;z-index:0}
+.painel:hover::before{opacity:1}
+.painel>*{position:relative;z-index:1}
+
+/* ===== o dia em vídeo (fundo fixo) ===== */
+.dia{position:fixed;inset:0;z-index:-1;overflow:hidden;background:#d9eef0}
+.dia video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;will-change:opacity,transform}
+.veu{position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.34),rgba(255,255,255,.46))}
+
+/* ===== topo ===== */
+.topo{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .3s,box-shadow .3s}
+.topo.fundo{background:rgba(255,255,255,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 1px 0 rgba(10,34,54,.12)}
+.topo .in{max-width:none;display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:10px}
+.marca{display:flex;align-items:center;min-height:44px}
+.marca img{height:30px;width:auto}
+.topo nav{display:flex;gap:30px}
+.topo nav a{position:relative;font-weight:500;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;padding-block:14px;color:var(--tinta)}
+.topo nav a::after{content:"";position:absolute;left:0;right:0;bottom:8px;height:2px;background:var(--coral-esc);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.topo nav a:hover::after,.topo nav a.on::after{transform:scaleX(1)}
+.topo .btn{min-height:44px;padding:10px 22px;box-shadow:none}
+.menu-btn{display:none;align-items:center;gap:10px;min-height:44px;padding:10px 16px;border-radius:999px;border:1px solid var(--tinta);background:rgba(255,255,255,.7);color:var(--tinta);font:500 .74rem/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;cursor:pointer}
+.menu-btn i{position:relative;width:16px;height:1.5px;background:var(--tinta)}
+.menu-btn i::before,.menu-btn i::after{content:"";position:absolute;left:0;width:16px;height:1.5px;background:var(--tinta);transition:transform .25s}
+.menu-btn i::before{top:-5px}.menu-btn i::after{top:5px}
+.menu-btn[aria-expanded="true"] i{background:transparent}
+.menu-btn[aria-expanded="true"] i::before{transform:translateY(5px) rotate(45deg)}
+.menu-btn[aria-expanded="true"] i::after{transform:translateY(-5px) rotate(-45deg)}
+.menu-cel{position:fixed;inset:0;z-index:45;background:#fff7ea;padding:96px var(--gr) 32px var(--gl);display:flex;flex-direction:column;gap:26px;overflow-y:auto}
+.menu-cel nav{display:grid}
+.menu-cel nav a{font-family:var(--serif);font-weight:500;font-size:2.2rem;text-decoration:none;padding:12px 0;border-bottom:1px solid rgba(10,34,54,.15)}
+.menu-cel .btn{align-self:flex-start}
+body.menu-aberto{overflow:hidden}
+@media (max-width:900px){.topo nav,.topo .btn.so-pc{display:none}.menu-btn{display:inline-flex}}
+
+/* ===== seções ===== */
+section{padding-block:110px}
+.sec-t{font-size:clamp(2.6rem,6vw,5.2rem);margin:14px 0 16px}
+.lead{font-size:1.12rem;max-width:46ch;color:var(--tinta2)}
+/* textos sobre o vídeo ficam em painel fosco: a medição mostrou que o mar escuro derrubava o contraste do texto corrido */
+.cab,.dois>div:first-child,.tema>div:first-child,.ev>div:first-child{background:rgba(255,255,255,.76);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.85);box-shadow:0 26px 60px -38px rgba(10,34,54,.5);padding:34px 38px}
+.cab{width:fit-content;max-width:100%}
+.dois>.cab{width:auto}
+.cab .sec-t{margin-top:12px}
+.cab .lead{margin-top:0}
+@media (max-width:900px){.cab,.dois>div:first-child,.tema>div:first-child,.ev>div:first-child{padding:24px 20px}}
+@media (max-width:900px){section{padding-block:76px}}
+
+/* 1. abertura */
+.hero{min-height:100svh;display:flex;align-items:center;padding-block:120px 70px}
+.hero .in{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;width:100%}
+.hero .in>div:first-child{background:rgba(255,255,255,.7);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding:40px 44px;border:1px solid rgba(255,255,255,.8);box-shadow:0 30px 70px -40px rgba(10,34,54,.55)}
+.hero h1{font-size:clamp(3.2rem,7.4vw,7rem);margin:16px 0 20px}
+.hero p{font-size:1.15rem;max-width:40ch;color:var(--tinta2)}
+.hero .cta{display:flex;gap:12px;flex-wrap:wrap;margin:28px 0 24px}
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chips li{padding:8px 16px;border-radius:999px;background:rgba(255,255,255,.8);border:1px solid rgba(10,34,54,.14);font-size:.85rem;font-weight:400}
+.arco{position:relative;aspect-ratio:4/5;margin-top:clamp(70px,9vw,120px)}
+.arco-q{position:absolute;inset:0;border-radius:999px 999px 18px 18px;overflow:hidden;box-shadow:0 40px 80px -40px rgba(10,34,54,.6);background:#2a4452}
+.arco-q::after{content:"";position:absolute;inset:0;border:6px solid rgba(255,255,255,.85);border-radius:inherit;pointer-events:none}
+.arco-q img{position:absolute;width:142.04%;height:142.07%;left:-30.91%;top:-42.04%;max-width:none}
+.arco .tridente{position:absolute;left:10.82%;top:-12.98%;width:26.28%;height:auto;pointer-events:none;filter:drop-shadow(0 8px 10px rgba(10,34,54,.35));animation:tri 6s ease-in-out infinite;transform-origin:50% 100%}
+@keyframes tri{0%,100%{transform:rotate(-.6deg)}50%{transform:rotate(.6deg)}}
+@media (prefers-reduced-motion:reduce){.arco .tridente{animation:none}}
+@media (max-width:900px){.hero .in{grid-template-columns:1fr;gap:34px}.hero .in>div:first-child{padding:26px 22px}.arco{max-width:360px;margin-inline:auto;width:100%}}
+
+/* ===== fotos com efeito: zoom suave, brilho, "ver foto" e inclinação ===== */
+.pgrid{display:grid;gap:18px;margin-top:44px}
+.pgrid.g2{grid-template-columns:repeat(2,1fr);max-width:820px}
+.pgrid.g4{grid-template-columns:repeat(4,1fr)}
+.pcard{display:flex;flex-direction:column;overflow:hidden;cursor:pointer;transform-style:preserve-3d;will-change:transform}
+.pcard:hover{box-shadow:0 34px 60px -30px rgba(10,34,54,.65)}
+.pcard .ph{position:relative;aspect-ratio:1/1;overflow:hidden;background:#d9eef0}
+.pcard .ph img{width:100%;height:100%;object-fit:cover;transform:scale(1.14);transition:transform 1.2s cubic-bezier(.2,.8,.2,1),filter .5s}
+.pcard.vis .ph img{transform:scale(1)}
+.pcard:hover .ph img{transform:scale(1.1);filter:saturate(1.12) contrast(1.04)}
+.pcard .ver{position:absolute;left:12px;bottom:12px;padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.94);font-weight:500;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;transform:translateY(160%);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.pcard:hover .ver,.pcard:focus-visible .ver{transform:translateY(0)}
+.pcard .pb{padding:18px 20px 22px;display:grid;gap:6px;align-content:start}
+.pcard small{font-weight:500;font-size:.64rem;letter-spacing:.22em;text-transform:uppercase;color:var(--coral-esc)}
+.pcard h3{font-family:var(--serif);font-weight:600;font-size:1.45rem;line-height:1.08}
+.pcard p{font-size:.88rem;color:var(--tinta2);line-height:1.5}
+@media (max-width:1000px){.pgrid.g4{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.pgrid{gap:12px}.pcard .pb{padding:12px 13px 16px}.pcard h3{font-size:1.15rem}.pcard p{font-size:.8rem}.pcard .ver{display:none}}
+.foto{position:relative;overflow:hidden;box-shadow:0 36px 70px -38px rgba(10,34,54,.65);border:6px solid rgba(255,255,255,.85);cursor:zoom-in}
+.foto img{width:100%;height:auto;transform:scale(1.1);transition:transform 1.1s cubic-bezier(.2,.8,.2,1);will-change:transform}
+.foto:hover img{transform:scale(1.16)}
+.foto figcaption{position:absolute;left:14px;bottom:14px;background:rgba(255,255,255,.94);padding:7px 16px;font-family:var(--serif);font-style:italic;font-weight:500;font-size:1.1rem;max-width:calc(100% - 28px)}
+
+/* 2. café */
+.nota{margin-top:26px;font-size:1rem;color:var(--tinta2);max-width:60ch}
+
+/* 3. parque */
+.dois{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.pulseiras{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:28px 0 16px}
+.pulseira{padding:18px 22px;border-top:3px solid var(--coral-esc)}
+.pulseira small{display:block;font-weight:500;font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:var(--tinta2)}
+.pulseira b{font-family:var(--serif);font-weight:600;font-size:3.2rem;line-height:1.05;color:var(--turq-esc)}
+.regras{display:grid;gap:8px;font-size:.98rem;margin-bottom:26px}
+.regras li{padding-left:26px;position:relative}
+.regras li::before{content:"";position:absolute;left:0;top:.9em;width:14px;height:2px;background:var(--coral-esc)}
+.fonte{margin-top:16px;font-size:.82rem;color:var(--tinta2)}
+.fonte a{text-decoration:underline}
+.kids{margin-top:56px;padding:30px 32px}
+.kids-h{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+.kids-c{display:grid;grid-template-columns:.8fr 1.2fr;gap:30px;align-items:center}
+.kids-c .foto{aspect-ratio:4/3}.kids-c .foto img{height:100%;object-fit:cover}
+.kids ul{display:grid;grid-template-columns:1fr;gap:16px}
+.kids b i{font-style:normal;font-family:var(--sans);font-weight:500;font-size:.95rem;color:var(--coral-esc);margin-left:10px;white-space:nowrap}
+.chef{margin:30px 0 0;max-width:860px;background:#f6f1e6;color:#1d1d1b;padding:22px 30px 26px;border-top:4px double #1d1d1b;border-bottom:1px solid #1d1d1b;box-shadow:0 24px 50px -36px rgba(10,34,54,.55)}
+.chef h3{margin:0 0 14px;text-align:center;font-family:var(--serif);font-weight:700;font-size:1.05rem;letter-spacing:.34em;text-transform:uppercase;padding-bottom:10px;border-bottom:1px solid #1d1d1b}
+.chef-c{display:grid;grid-template-columns:132px 1fr;gap:22px;align-items:start}
+.chef-c img{width:132px;height:160px;object-fit:cover;object-position:50% 22%;border:1px solid #1d1d1b}
+.chef-c div{columns:2;column-gap:26px;column-rule:1px solid rgba(29,29,27,.35);font-family:var(--serif);font-size:1.02rem;line-height:1.42;text-align:justify;hyphens:auto}
+.chef-c p{margin:0 0 8px}
+.chef-c b{font-weight:700}
+@media (max-width:760px){.chef{padding:18px 18px 22px}.chef-c{grid-template-columns:96px 1fr;gap:14px}.chef-c img{width:96px;height:118px}.chef-c div{columns:1}}.mosaico{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.mosaico .foto:first-child{grid-column:1/-1}
+.mosaico .foto:not(:first-child){aspect-ratio:1/1}.mosaico .foto:not(:first-child) img{height:100%;object-fit:cover}
+@media (max-width:900px){.kids-c{grid-template-columns:1fr}}
+.kids b{display:block;font-family:var(--serif);font-weight:600;font-size:1.5rem;color:var(--turq-esc)}
+.kids span{font-size:.92rem;color:var(--tinta2)}
+@media (max-width:900px){.dois{grid-template-columns:1fr;gap:34px}.kids ul{grid-template-columns:1fr;gap:14px}}
+
+/* 4. almoço */
+.faixa{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0 0}
+.faixa li{padding:10px 18px;background:rgba(255,255,255,.85);border-left:3px solid var(--coral-esc);font-size:.92rem;font-weight:400}
+.combos{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:50px}
+.combo{display:grid;grid-template-columns:.8fr 1.2fr;overflow:hidden}
+.combo .ph{overflow:hidden}
+.combo img{width:100%;height:100%;object-fit:cover;min-height:260px;transition:transform 1s cubic-bezier(.2,.8,.2,1)}
+.combo:hover img{transform:scale(1.08)}
+.combo div.tx{padding:24px;display:grid;gap:8px;align-content:center}
+.combo .tag{font-weight:500;font-size:.64rem;letter-spacing:.26em;color:var(--coral-esc)}
+.combo h3{font-family:var(--serif);font-weight:600;font-size:1.45rem;line-height:1.08}
+.combo .de{color:var(--tinta2);text-decoration:line-through;font-size:.85rem}
+.combo .por{font-family:var(--serif);font-weight:600;font-size:2.8rem;line-height:1;color:var(--coral-esc)}
+.completo{margin-top:34px}
+@media (max-width:900px){.combos{grid-template-columns:1fr}.combo{grid-template-columns:1fr}.combo img{min-height:0;aspect-ratio:4/3}}
+
+/* 5. fim de tarde, drinks, tema e eventos */
+.carro{position:relative;height:300vh;margin-bottom:40px}
+.carro-pino{position:sticky;top:0;height:100svh;display:flex;align-items:center;overflow:hidden;perspective:1100px}
+.carro-titulo{position:absolute;left:0;top:50%;white-space:nowrap;font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(9rem,26vw,24rem);line-height:1;color:rgba(255,255,255,.42);transform:translateY(-52%);pointer-events:none;will-change:transform;text-shadow:0 0 40px rgba(10,34,54,.12)}
+.carro-trilho{position:relative;display:flex;gap:clamp(26px,4vw,60px);padding-inline:max(24px,calc(50vw - 190px));will-change:transform;transform-style:preserve-3d;align-items:center}
+.carro .foto.cs{flex:0 0 auto;width:min(66vw,380px);height:min(68svh,520px);margin:0;border:0;border-radius:26px;box-shadow:0 50px 80px -40px rgba(10,34,54,.7);will-change:transform,opacity;transform-origin:50% 60%}
+.carro .cs img{position:absolute;left:-12%;top:0;width:124%;max-width:none;height:100%;object-fit:cover;transform:none;transition:none}
+.carro .cs:hover img{transform:none}
+.carro .cs::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,34,54,.7),rgba(10,34,54,0) 45%);pointer-events:none}
+.carro .cs figcaption{z-index:2;left:22px;bottom:20px;background:none;padding:0;color:#fff;font-size:1.7rem;text-shadow:0 2px 14px rgba(0,0,0,.45)}
+.carro .lista{flex:0 0 auto;width:min(80vw,440px);display:flex;flex-direction:column;justify-content:center;padding:34px 36px;gap:14px}
+.carro .lista h3{font-size:clamp(2rem,3.6vw,2.8rem);margin:0}
+.carro .drinks{flex-direction:column;flex-wrap:nowrap;margin:6px 0 0;align-items:flex-start}
+@media (prefers-reduced-motion:reduce){.carro{height:auto}.carro-pino{position:static;overflow-x:auto}}.drinks{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 22px}
+.drinks li{padding:10px 20px;background:rgba(255,255,255,.88);border-radius:999px;font-family:var(--serif);font-weight:600;font-size:1.2rem;transition:transform .3s,box-shadow .3s}
+.drinks li:hover{transform:translateY(-3px);box-shadow:0 14px 24px -14px rgba(10,34,54,.5)}
+.drinks li span{font-family:var(--sans);font-weight:300;font-size:.78rem;color:var(--tinta2)}
+.tira{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:70px}
+.tira .foto{aspect-ratio:4/5}
+.tira .foto img{height:100%;object-fit:cover}
+.tema{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center;margin-bottom:90px}
+.tema h3,.ev h3{font-size:clamp(2.2rem,4.6vw,3.8rem)}
+.tema p{margin-top:14px}
+.ev{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.saloes{display:flex;gap:12px;margin:22px 0 22px;flex-wrap:wrap}
+.saloes li{font-family:var(--serif);font-weight:600;font-size:1.5rem;padding:6px 24px;border:1px solid var(--tinta);background:rgba(255,255,255,.7)}
+.fatos{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 20px}
+.fatos li{padding:8px 16px;border-radius:999px;background:rgba(255,255,255,.88);border:1px solid rgba(10,34,54,.14);font-size:.88rem;font-weight:400}
+.ev .btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+.prova{margin-top:70px;padding:34px 38px;display:grid;grid-template-columns:auto 1fr;gap:34px;align-items:center}
+.nota5{text-align:center;padding-right:34px;border-right:1px solid rgba(10,34,54,.16)}
+.nota5 b{display:block;font-family:var(--serif);font-weight:600;font-size:5rem;line-height:.9;color:var(--turq-esc)}
+.nota5 .estrelas{color:#a8741a;font-size:1.3rem;letter-spacing:.12em}
+.nota5 small{display:block;margin-top:6px;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--tinta2)}
+.prova blockquote{margin:0}
+.prova blockquote p{font-family:var(--serif);font-style:italic;font-weight:500;font-size:1.5rem;line-height:1.3}
+.prova cite{display:block;margin-top:12px;font-style:normal;font-size:.88rem;color:var(--tinta2)}
+.prova cite a{text-decoration:underline}
+.prova+.prova{margin-top:18px}
+.falas{display:grid;gap:22px}
+.falas blockquote p{font-size:1.25rem}
+.ver-g{display:inline-block;margin-top:10px;padding-block:8px;font-size:.8rem;text-decoration:underline;color:var(--tinta2)}
+@media (max-width:900px){.tira{grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:50px}.tema,.ev{grid-template-columns:1fr;gap:34px}.tema{margin-bottom:60px}.prova{grid-template-columns:1fr;padding:26px 22px;margin-top:50px}.nota5{border-right:0;padding-right:0;border-bottom:1px solid rgba(10,34,54,.16);padding-bottom:20px}.prova blockquote p{font-size:1.25rem}}
+@media (max-width:560px){.tira{grid-template-columns:1fr 1fr}.tira .foto:nth-child(3){display:none}}
+
+/* 6. visite (fim do dia) */
+.visite .painel{background:rgba(8,24,44,.92);color:#f3ece0;border:1px solid rgba(255,255,255,.14);padding:48px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.visite .painel::before{display:none}
+.visite .selo{color:#ffd9b0}
+.visite .selo b{color:#ffb98a}
+.visite h2{color:#fff}
+.visite h2 em{color:#ffb98a}
+.visite li{margin:2px 0;font-weight:400}
+.visite li small{display:block;font-weight:300;color:#cdd7e2}
+.visite li a{display:inline-block;padding-block:11px;text-decoration:underline}
+.visite iframe{width:100%;height:360px;border:0}
+.extras{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 20px;margin:20px 0 28px;font-size:.9rem;color:#cdd7e2}
+@media (max-width:900px){.visite .painel{grid-template-columns:1fr;gap:30px;padding:30px 22px}}
+
+.topo-volta{display:inline-flex;align-items:center;gap:10px;margin-top:18px;padding:12px 26px;border:1px solid rgba(255,255,255,.4);border-radius:999px;color:#fff;font-weight:500;letter-spacing:.14em;text-transform:uppercase;font-size:.78rem;text-decoration:none;transition:background .3s,color .3s,transform .3s}.topo-volta b{font-size:1.1rem;transition:transform .3s}.topo-volta:hover{background:#fff;color:#08182c;transform:translateY(-3px)}.topo-volta:hover b{transform:translateY(-3px)}
+footer{background:#08182c;color:#b9c7d6;padding:46px 0 110px;font-size:.85rem}
+footer .in{display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between}
+footer img{height:26px;width:auto;filter:brightness(0) invert(1)}
+footer a{text-decoration:underline}
+
+.fixa{position:fixed;z-index:40;left:var(--gl);right:var(--gr);bottom:calc(14px + env(safe-area-inset-bottom,0px));display:none;gap:10px;transition:opacity .3s,transform .3s}
+.fixa .btn{flex:1;min-height:52px;padding:12px}
+.fixa.some{opacity:0;transform:translateY(120%);pointer-events:none}
+@media (max-width:900px){.fixa{display:flex}}
+
+.sobe{opacity:0;transform:translateY(34px) scale(.985);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.8,.2,1)}
+.sobe.vis{opacity:1;transform:none}
+
+/* ===== janelas: ampliar foto e formulário de reserva ===== */
+dialog{border:0;padding:0;background:transparent;max-width:100vw;max-height:100vh;overflow:visible}
+dialog::backdrop{background:rgba(5,16,30,.78);backdrop-filter:blur(6px)}
+dialog[open]{animation:abre .32s cubic-bezier(.2,.8,.2,1)}
+@keyframes abre{from{opacity:0;transform:translateY(24px) scale(.96)}to{opacity:1;transform:none}}
+.lb{width:min(1000px,94vw)}
+.lb figure{background:#fff;overflow:hidden;box-shadow:0 40px 90px -30px rgba(0,0,0,.7)}
+.lb img{width:100%;max-height:72vh;object-fit:contain;background:#0a1a2a}
+.lb figcaption{padding:18px 24px 22px}
+.lb h3{font-family:var(--serif);font-weight:600;font-size:1.8rem;line-height:1.1}
+.lb p{margin-top:6px;color:var(--tinta2);font-size:.98rem}
+.fecha{position:absolute;right:-6px;top:-18px;z-index:3;width:44px;height:44px;border-radius:50%;border:0;background:#fff;color:var(--tinta);font-size:1.5rem;line-height:1;cursor:pointer;box-shadow:0 10px 24px -8px rgba(0,0,0,.6);transition:transform .2s}
+.fecha:hover{transform:rotate(90deg) scale(1.08)}
+.lb-nav{position:absolute;top:calc(36vh - 22px);width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.92);font-size:1.4rem;cursor:pointer;z-index:3;box-shadow:0 10px 24px -8px rgba(0,0,0,.6)}
+.lb-nav.p{left:12px}.lb-nav.n{right:12px}
+.ev-form{width:min(560px,94vw)}
+.ev-form .cx{position:relative;background:#fffaf1;padding:34px 34px 30px;box-shadow:0 40px 90px -30px rgba(0,0,0,.7);max-height:92vh;overflow:auto;border-top:5px solid var(--coral-esc)}
+.ev-form h2{font-family:var(--serif);font-weight:600;font-size:2rem;line-height:1.05;margin:6px 0 8px}
+.ev-form .sub{font-size:.95rem;color:var(--tinta2);margin-bottom:18px}
+.ev-form label{display:block;font-weight:500;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;margin:14px 0 6px}
+.ev-form input,.ev-form select{width:100%;min-height:50px;padding:10px 14px;font:inherit;font-weight:400;font-size:1rem;color:var(--tinta);background:#fff;border:1.5px solid rgba(10,34,54,.28);border-radius:10px;transition:border-color .2s,box-shadow .2s}
+.ev-form input:focus,.ev-form select:focus{outline:0;border-color:var(--turq-esc);box-shadow:0 0 0 4px rgba(4,80,95,.16)}
+.ev-form input.tocado:invalid,.ev-form select.tocado:invalid{border-color:var(--coral-esc);box-shadow:0 0 0 3px rgba(179,64,29,.14)}
+.ev-form .lin{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ev-form .opc{font-weight:300;text-transform:none;letter-spacing:0;color:var(--tinta2)}
+.ev-form .erro{margin-top:12px;color:var(--coral-esc);font-size:.9rem;font-weight:500;min-height:1.2em}
+.ev-form .btn{width:100%;margin-top:14px}
+.ev-form .aviso{margin-top:12px;font-size:.82rem;color:var(--tinta2)}
+.ev-form .ok{display:none;text-align:center;padding:10px 0}
+.ev-form.enviado .ok{display:block}.ev-form.enviado form{display:none}
+.ev-form .ok b{display:block;font-family:var(--serif);font-size:2rem;line-height:1.05;color:var(--verde);margin-bottom:8px}
+@media (max-width:560px){.ev-form .cx{padding:26px 20px 22px}.ev-form .lin{grid-template-columns:1fr}.lb-nav{display:none}}
+@media (prefers-reduced-motion:reduce){.sobe{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}.btn.pulsa{animation:none}.pcard .ph img,.foto img{transition:none;transform:none}dialog[open]{animation:none}}
+
+/* ===== ajuste: cantos arredondados, alinhamento e site mais enxuto ===== */
+:root{--r:24px;--r2:16px}
+section{padding-block:72px}
+.sec-t{font-size:clamp(2.2rem,4.8vw,3.9rem);margin:10px 0 12px}
+.cab,.dois>div:first-child,.tema>div:first-child,.ev>div:first-child,.hero .in>div:first-child,.painel,.prova,.kids,.combo,.visite .painel,.faixa li,.pulseira,.chef{border-radius:var(--r)}
+.chef{border-radius:14px}
+.foto,.pcard,.mosaico .foto,.kids-c .foto,.tira .foto{border:0;border-radius:var(--r);box-shadow:0 30px 60px -36px rgba(10,34,54,.6)}
+.foto figcaption{border-radius:999px;padding:7px 18px}
+.faixa li{border-left:0;border-radius:999px}
+.pulseira{border-top:0;border-left:4px solid var(--coral-esc)}
+.pcard .ph{border-radius:var(--r) var(--r) 0 0}
+.visite iframe{border-radius:var(--r2)}
+dialog{border-radius:var(--r)}.ev-form .cx,.lb-cx{border-radius:var(--r)}
+.ev-form input,.ev-form select{border-radius:12px}
+.arco-q{border-radius:999px 999px 28px 28px}
+.chef-c img{border-radius:10px}
+/* alinhamentos */
+#cafe .in>.cab{width:auto;margin-top:18px!important;padding:20px 30px}#cafe .in>.cab .nota{max-width:none}
+.dois{align-items:stretch;gap:36px}
+.dois>.foto{height:100%;min-height:260px}
+.dois>.foto img{position:absolute;inset:0;height:100%;object-fit:cover}
+.dois>.mosaico{height:100%;grid-template-rows:1.25fr 1fr}
+.mosaico{gap:14px}
+.mosaico .foto{aspect-ratio:auto!important;min-height:0}
+.mosaico .foto img{position:absolute;inset:0;height:100%!important;object-fit:cover}
+.mosaico .foto:first-child{grid-column:1/-1}
+#park .dois>div:first-child{align-self:stretch}
+/* grades compactas e centralizadas */
+.pgrid{margin-top:26px;gap:16px}
+.pgrid.g2{max-width:none;grid-template-columns:1fr 1fr}
+.pgrid.g2 .pcard{flex-direction:row;align-items:stretch}
+.pgrid.g2 .pcard .ph{aspect-ratio:auto;width:40%;flex:0 0 40%;border-radius:var(--r) 0 0 var(--r)}
+.pgrid.g2 .pcard{min-height:210px}.pgrid.g2 .pcard .ph img{position:absolute;inset:0}.pgrid.g2 .pcard .pb{align-content:center;padding:18px 22px}
+.pgrid.g4{display:flex;flex-wrap:wrap;justify-content:center}
+.pgrid.g4>.pcard{flex:0 0 calc((100% - 64px)/5)}
+.pgrid.g4 .pcard .ph{aspect-ratio:4/3}
+.pgrid.g4 .pcard h3{font-size:1.2rem}
+.pgrid.g4 .pcard p{font-size:.8rem;line-height:1.4}
+.pgrid.g4 .pcard .pb{padding:12px 14px 16px}
+.combos{margin-top:30px}
+.combo img{min-height:200px}
+.kids{margin-top:30px}
+.tema{margin-bottom:50px}
+.prova{margin-top:36px}
+.carro{height:230vh;margin-bottom:10px}
+@media (max-width:1000px){.pgrid.g4>.pcard{flex-basis:calc((100% - 32px)/3)}}
+@media (max-width:900px){section{padding-block:52px}.dois>.foto{height:auto;min-height:0;aspect-ratio:4/3}.dois>.mosaico{height:auto;grid-template-rows:auto}.mosaico .foto:first-child{aspect-ratio:16/10!important}.mosaico .foto:not(:first-child){aspect-ratio:1/1!important}.pgrid.g2{grid-template-columns:1fr}.carro{height:200vh}}
+@media (max-width:900px){.kids-c .foto{display:none}}
+@media (max-width:560px){.pgrid.g4>.pcard{flex-basis:calc(50% - 6px)}.pgrid.g2 .pcard .ph{width:36%;flex-basis:36%}}</style>
+</head>
+<body>
+
+<!-- O DIA: cinco vídeos reais do mar, do nascer ao pôr do sol; a rolagem é o relógio e troca de cena -->
+<div class="dia" id="dia" aria-hidden="true">
+  <video data-n="1-nascer" muted loop playsinline preload="none"></video>
+  <video data-n="2-meiodia" muted loop playsinline preload="none"></video>
+  <video data-n="3-tarde" muted loop playsinline preload="none"></video>
+  <video data-n="4-dourado" muted loop playsinline preload="none"></video>
+  <video data-n="5-poente" muted loop playsinline preload="none"></video>
+  <div class="veu" id="veu"></div>
+</div>
+
+<header class="topo" id="topo">
+  <div class="in">
+    <a class="marca" href="#manha" aria-label="Atlantidz, início"><img src="img/logo.png" alt="Atlantidz" width="150" height="30"></a>
+    <nav aria-label="Seções"><a href="#cafe">Café</a><a href="#park">Parque</a><a href="#almoco">Almoço</a><a href="#eventos">Eventos</a><a href="#visite">Visite</a></nav>
+    <a class="btn so-pc js-pulseira" href="#park">Garantir pulseira</a>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="menuCel"><span>Menu</span><i aria-hidden="true"></i></button>
+  </div>
+</header>
+<div class="menu-cel" id="menuCel" hidden>
+  <nav aria-label="Menu"><a href="#cafe">Café</a><a href="#park">Parque</a><a href="#almoco">Almoço</a><a href="#eventos">Eventos</a><a href="#visite">Visite</a></nav>
+  <a class="btn zap js-whats" href="#" target="_blank" rel="noopener">Chamar no WhatsApp</a>
+</div>
+
+<main>
+  <!-- 8h · ABERTURA -->
+  <section class="hero" id="manha" aria-label="Atlantidz">
+    <div class="in">
+      <div>
+        <span class="selo">Praia do Futuro · desde 2004</span>
+        <h1 class="t">Um dia inteiro de <em>Atlantidz.</em></h1>
+        <p>Barraca e parque aquático em Fortaleza: café da manhã, toboáguas, almoço de frente pro mar e muito mais, todos os dias.</p>
+        <div class="cta"><a class="btn pulsa js-pulseira" href="#park">Garantir a pulseira</a><a class="btn contorno js-cardapio" href="https://drive.google.com/file/d/1tH-ArAK45rr7dst6uu3yNuCB8RmbeEDK/view" target="_blank" rel="noopener">Ver o cardápio</a></div>
+        <ul class="chips"><li>★ 4,6 no Google · 9.476 avaliações</li><li>Todos os dias, 8h às 18h</li><li>Av. Clóvis Arrais Maia, 5695</li></ul>
+      </div>
+      <div class="arco"><div class="arco-q"><img id="heroFoto" src="img/hero-poseidon.jpg" alt="Estátua dourada de Poseidon com o tridente, sentada entre pedras, com o telhado de palha da barraca e palmeiras ao fundo" width="920" height="1149"></div><img class="tridente" src="img/tridente.png" alt="" width="170" height="205"></div>
+    </div>
+  </section>
+
+  <!-- 8h–10h · CAFÉ -->
+  <section id="cafe">
+    <div class="in">
+      <div class="dois"><div class="cab"><span class="selo"><b>8h</b> Café da manhã</span>
+      <h2 class="t sec-t sobe">O dia começa <em>com café regional.</em></h2>
+      <p class="lead sobe">O café da manhã da Atlantidz vai das 8h às 10h, com pratos nordestinos e um croissant de carne de sol que vale a visita.</p>
+      </div>
+      <figure class="foto sobe" data-lb="img/entrada.jpg" data-t="A entrada da Atlantidz" data-d="Pilares com o nome da casa, palmeiras, mesas e o mar ao fundo, na Praia do Futuro."><img src="img/entrada.jpg" alt="Entrada da Atlantidz entre dois pilares com o nome da casa, palmeiras, mesas e o mar ao fundo" width="799" height="533" loading="lazy"><figcaption>A entrada da Atlantidz, na Praia do Futuro</figcaption></figure>
+      </div>
+      <div class="pgrid g2" id="gridCafe"></div>
+      <div class="cab sobe" style="margin-top:26px"><p class="nota" style="margin:0">Também no café da manhã: tapioca mista com ovo e queijo e açaí artesanal de 300 g ou 500 g, com granola e banana. Os pratos acompanham café, leite ou suco de laranja.</p></div>
+    </div>
+  </section>
+
+  <!-- MANHÃ E TARDE · PARQUE -->
+  <section id="park">
+    <div class="in">
+      <div class="dois">
+        <div>
+          <span class="selo"><b>☀</b> Manhã e tarde · Atlantinho Park</span>
+          <h2 class="t sec-t sobe">Íris e Tritão, os maiores <em>toboáguas da orla.</em></h2>
+          <p class="lead sobe">São mais de 7 metros de altura, num espaço criado para as crianças e seguro para toda a família.</p>
+          <div class="pulseiras sobe">
+            <div class="pulseira painel"><small>Pulseira · segunda a sexta</small><b data-conta="40">R$ 40</b></div>
+            <div class="pulseira painel"><small>Sábados, domingos e feriados</small><b data-conta="50">R$ 50</b></div>
+          </div>
+          <ul class="regras sobe">
+            <li>Crianças até 90 cm não pagam, com acompanhante pagante obrigatório.</li>
+            <li>Crianças com TEA têm entrada gratuita; o acompanhante tem 50% de desconto.</li>
+          </ul>
+          <a class="btn js-pulseira" href="https://atlantidz.com.br/" target="_blank" rel="noopener">Comprar pulseiras</a>
+          <p class="fonte sobe">Toboáguas e medidas: <a href="https://www.melhoresdestinos.com.br/parque-aquatico-barraca-praia-do-futuro-fortaleza.html" target="_blank" rel="noopener">Melhores Destinos, 08/10/2025</a>.</p>
+        </div>
+        <div class="mosaico">
+          <figure class="foto sobe" data-lb="img/parque.jpg" data-t="Toboágua do Atlantinho Park" data-d="A descida do toboágua azul, de frente para a piscina, com palmeiras e o mar ao fundo."><img src="img/parque.jpg" alt="Toboágua azul do Atlantinho Park de frente para a piscina, com palmeiras e o mar ao fundo" width="800" height="533" loading="lazy"></figure>
+          <figure class="foto sobe" data-lb="img/parque-criancas.jpg" data-t="Área infantil" data-d="Crianças brincando na área infantil do Atlantinho Park, com escorregadores e arcos de água."><img src="img/parque-criancas.jpg" alt="Crianças brincando na piscina rasa com escorregador azul e arcos de água do Atlantinho Park" width="1200" height="900" loading="lazy"></figure>
+          <figure class="foto sobe" data-lb="img/parque-orla.jpg" data-t="Mesas à beira-mar" data-d="Mesas, palmeiras e passarela de madeira com o mar ao fundo, na Praia do Futuro."><img src="img/parque-orla.jpg" alt="Mesas e passarela de madeira entre palmeiras, com o mar ao fundo, na Atlantidz" width="1200" height="900" loading="lazy"></figure>
+        </div>
+      </div>
+      <div class="kids painel sobe">
+        <div class="kids-h"><span class="selo">Menu Kids</span><span class="lead" style="margin:0">Exclusivo para crianças de até 12 anos.</span></div>
+        <div class="kids-c">
+          <figure class="foto" data-lb="img/parque-criancas.jpg" data-t="Menu Kids" data-d="A criançada na área infantil do Atlantinho Park."><img src="img/parque-criancas.jpg" alt="Crianças brincando na piscina rasa do Atlantinho Park" width="1200" height="900" loading="lazy"></figure>
+          <ul>
+            <li><b>Bob Peixe <i>R$ 45,00</i></b><span>120 g de filé de peixe, arroz branco e purê de batatas.</span></li>
+            <li><b>Filezinho Bill <i>R$ 47,00</i></b><span>120 g de filé mignon, arroz branco e batata frita.</span></li>
+            <li><b>Frango Donald <i>R$ 36,00</i></b><span>120 g de frango grelhado, arroz branco e batatas fritas.</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11h · ALMOÇO -->
+  <section id="almoco">
+    <div class="in">
+      <div class="cab"><span class="selo"><b>11h</b> Almoço</span>
+      <h2 class="t sec-t sobe">Nossa <em>gastronomia.</em></h2>
+      <p class="lead sobe">Frutos do mar, peixes e carnes da casa, de frente pro mar. Toque numa foto para ver maior.</p>
+      <ul class="faixa sobe"><li>Menu Executivo · segunda a sexta, 11h às 15h</li><li>Happy Hour Pé na Areia · segunda a sábado, 11h às 14h</li></ul>
+      </div>
+
+
+      <aside class="chef sobe" aria-label="Conheça o Chef">
+        <h3>Conheça o Chef</h3>
+        <div class="chef-c">
+          <img src="img/chef-gazal.jpg" alt="Retrato do chef Raphael Gazal, de boné, óculos e avental de couro" width="640" height="640" loading="lazy">
+          <div>
+            <p><b>Raphael Gazal, 38 anos,</b> é graduado em gastronomia pelo Instituto Federal de Ciência e Tecnologia, mixologista e especialista em gastronomia molecular. Também é palestrante e consultor, com trabalhos em várias cidades do Brasil.</p>
+            <p>Foi professor universitário no IFCE e chef no Beach Park, onde passou por três cozinhas (Beach Grill, Barra de Praia do Beach e Vila Azul do Mar) e ganhou prêmios de melhor gastronomia no Tripadvisor. Atuou ainda no Sr. Fisher e no Bulls.</p>
+            <p>Sul-mato-grossense, descobriu a gastronomia na aeronáutica, quando serviu como cadete.</p>
+          </div>
+        </div>
+      </aside>
+
+      <div class="pgrid g4" id="gridPratos"></div>
+
+      <div class="combos">
+        <article class="combo painel sobe"><div class="ph"><img src="img/tilapia.jpg" alt="Tilápia frita completa com batata frita, arroz e salada" width="1000" height="1500" loading="lazy"></div><div class="tx"><span class="tag">COMBO COM PULSEIRA</span><h3>Tilápia frita completa + pulseiras do parque</h3><span class="de">de R$ 229,90</span><span class="por">R$ 149,90</span><a class="btn js-pulseira" href="https://atlantidz.com.br/" target="_blank" rel="noopener">Comprar agora</a></div></article>
+        <article class="combo painel sobe"><div class="ph"><img src="img/parmegiana.jpg" alt="Frango à parmegiana gratinado com muçarela e uma pimenta" width="1000" height="1500" loading="lazy"></div><div class="tx"><span class="tag">COMBO COM PULSEIRA</span><h3>Frango à parmegiana + pulseiras do parque</h3><span class="de">de R$ 184,99</span><span class="por">R$ 99,90</span><a class="btn js-pulseira" href="https://atlantidz.com.br/" target="_blank" rel="noopener">Comprar agora</a></div></article>
+      </div>
+      <a class="btn contorno completo js-cardapio" href="https://drive.google.com/file/d/1tH-ArAK45rr7dst6uu3yNuCB8RmbeEDK/view" target="_blank" rel="noopener">Ver o cardápio completo</a>
+
+    </div>
+  </section>
+
+  <!-- FIM DE TARDE · DRINKS, TEMA E EVENTOS -->
+  <section id="eventos">
+    <div class="in">
+      <div class="cab"><span class="selo"><b>☀</b> Fim de tarde · drinks e eventos</span>
+      <h2 class="t sec-t sobe">Um drink <em>e um evento à beira-mar.</em></h2>
+      </div>
+    </div>
+    <div class="carro" id="carro">
+      <div class="carro-pino"><div class="carro-titulo" id="carroTit" aria-hidden="true">Drinks da casa</div>
+        <div class="carro-trilho" id="carroTrilho">
+          <figure class="foto cs" data-lb="img/pratos/drinks-trio.jpg" data-t="Drinks autorais" data-d="Os drinks da casa levam nomes inspirados na lenda de Atlântida."><img src="img/pratos/drinks-trio.jpg" alt="Três taças de drinks coloridos, em vermelho, azul e laranja, sobre a mesa da barraca" width="900" height="1350" loading="lazy"><figcaption>Drinks autorais</figcaption></figure>
+          <figure class="foto cs" data-lb="img/pratos/mules-e-batata.jpg" data-t="Mules e petisco" data-d="Dois mules em canecas de cobre da casa, ao lado de um petisco na chapa."><img src="img/pratos/mules-e-batata.jpg" alt="Dois mules em canecas de cobre com a marca da casa e uma travessa de batata frita na chapa" width="859" height="1289" loading="lazy"><figcaption>Mules na caneca de cobre</figcaption></figure>
+          <figure class="foto cs" data-lb="img/pratos/mules-trio.jpg" data-t="Mules da casa" data-d="Três mules cobertos de chantilly e frutas, nas canecas de cobre com a marca da Atlantidz."><img src="img/pratos/mules-trio.jpg" alt="Três mules em canecas de cobre com a marca da Atlantidz, cobertos de chantilly e fruta" width="795" height="833" loading="lazy"><figcaption>Mules da casa</figcaption></figure>
+          <figure class="foto cs" data-lb="img/pratos/drinks-brinde.jpg" data-t="Um brinde" data-d="Brinde de dois drinks em um dia de sol na Praia do Futuro."><img src="img/pratos/drinks-brinde.jpg" alt="Duas mãos brindando drinks de laranja e limão, com coqueiros ao fundo" width="794" height="784" loading="lazy"><figcaption>Um brinde ao sol</figcaption></figure>
+          <div class="cs lista painel">
+            <span class="selo">Drinks autorais</span>
+            <h3 class="t">Nomes que vêm <em>da lenda.</em></h3>
+            <ul class="drinks"><li>Poseidon Mule <span>· morango</span></li><li>Atlas Mule <span>· maracujá</span></li><li>Netuno <span>· gin e morango</span></li><li>Oceano Gin <span>· laranja e soda</span></li><li>Brisa Solar <span>· gin e gengibre</span></li></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="in">
+      <div class="tema">
+        <div>
+          <h3 class="t sobe">Uma barraca <em>temática.</em></h3>
+          <p class="lead sobe">A Atlantidz tem ambiente temático inspirado na lendária Atlântida. Até os drinks e os salões levam nomes de lá: Poseidon Mule, Atlas Mule, Netuno, Salão Atlas e Salão Netuno.</p>
+        </div>
+        <figure class="foto sobe" data-lb="img/poseidon-real.jpg" data-t="Atlântida na Praia do Futuro" data-d="A estátua de Poseidon, na entrada da barraca, entre pedras e palmeiras."><img src="img/poseidon-real.jpg" alt="Estátua dourada de Poseidon sentada entre pedras, com o telhado de palha da barraca e palmeiras ao fundo" width="1600" height="918" loading="lazy"><figcaption>Ambiente temático inspirado na lendária Atlântida</figcaption></figure>
+      </div>
+
+      <div class="ev">
+        <div>
+          <h3 class="t sobe">Seu evento na <em>Atlantidz.</em></h3>
+          <p class="lead sobe" style="margin-top:12px">Casamentos com pé na areia, festas, aniversários infantis e eventos corporativos, com passarela de palmeiras de frente para o mar.</p>
+          <ul class="fatos sobe"><li>De 100 a 600 convidados</li><li>Salões Atlas e Netuno</li><li>Corporativos: pacotes a partir de R$ 139,90</li></ul>
+          <div class="btns sobe"><a class="btn zap js-evento" href="#reservar" role="button">Reservar minha data</a></div>
+        </div>
+        <figure class="foto sobe" data-lb="img/pratos/evento-mesas.jpg" data-t="Eventos na Atlantidz" data-d="Convidados à mesa, ao entardecer, entre os coqueiros da barraca."><img src="img/pratos/evento-mesas.jpg" alt="Convidados sentados em mesas com toalhas brancas entre coqueiros, ao entardecer, num evento na barraca" width="1200" height="900" loading="lazy"><figcaption>Ao entardecer, entre os coqueiros</figcaption></figure>
+      </div>
+
+      <div class="prova painel sobe">
+        <div class="nota5"><b>4,6</b><span class="estrelas" aria-label="4,6 de 5 estrelas">★★★★★</span><small>Google · 9.476 avaliações<br>em novembro de 2026</small><a class="ver-g" href="https://www.google.com/maps/search/?api=1&query=Barraca+Atlantidz+Praia+do+Futuro+Fortaleza" target="_blank" rel="noopener">ver no Google</a></div>
+        <div class="falas">
+          <blockquote>
+            <p>“Ótima estrutura a beira mar com bangalôs, banheiros, duchas, restaurante, piscina, ideal para descansar e aproveitar a praia também. Cardápio variado com preços justos. Os funcionários são muito atenciosos e receptivos.”</p>
+            <cite>Heberson S. · avaliação no Google</cite>
+          </blockquote>
+          <blockquote>
+            <p>“A gente fica até mal acostumado com o atendimento em todos os lugares de Fortaleza e aqui não foi diferente.”</p>
+            <cite>Patricia F. · avaliação no Google</cite>
+          </blockquote>
+        </div>
+      </div>
+      <div class="prova painel sobe">
+        <div class="nota5"><b>5,0</b><span class="estrelas" aria-label="5 de 5 estrelas">★★★★★</span><small>Casamentos.com.br<br>100% recomendam (1 avaliação)</small></div>
+        <blockquote>
+          <p>“Nosso casamento foi lindo. A comida é maravilhosa, os coquetéis espetaculares. Todos amaram e foram só elogios ao espaço que é lindo. Contrataria mil vezes de novo.”</p>
+          <cite>Carol, casamento · 03/06/2019 · <a href="https://www.casamentos.com.br/restaurante-casamento/atlantidz--e241023" target="_blank" rel="noopener">ver no Casamentos.com.br</a></cite>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18h · VISITE -->
+  <section id="visite" class="visite">
+    <div class="in">
+      <div class="painel">
+        <div>
+          <span class="selo"><b>18h</b> Até amanhã</span>
+          <h2 class="t sec-t sobe">Todos os dias, <em>8h às 18h.</em></h2>
+          <ul class="sobe">
+            <li>Av. Clóvis Arrais Maia, 5695 · Praia do Futuro, Fortaleza<small>Café da manhã das 8h às 10h</small></li>
+            <li><a class="js-whats" href="#" target="_blank" rel="noopener">WhatsApp (85) 99402-9196</a></li>
+            <li><a href="tel:+558531208717">Telefone (85) 3120-8717</a></li>
+            <li><a href="https://www.instagram.com/atlantidzoficial/" target="_blank" rel="noopener">@atlantidzoficial</a></li>
+          </ul>
+          <div class="extras sobe"><span>Couvert seg. a sex.: R$ 10</span><span>Couvert sáb., dom. e feriados: R$ 15</span><span>Guarda-volumes: R$ 20</span><span>Cadeira de sol: R$ 12</span></div>
+          <a class="btn zap js-whats" href="#" target="_blank" rel="noopener">Chamar no WhatsApp</a>
+        </div>
+        <iframe class="sobe" loading="lazy" title="Mapa da Atlantidz na Praia do Futuro" src="https://www.google.com/maps?q=Av.+Cl%C3%B3vis+Arrais+Maia,+5695,+Fortaleza&output=embed"></iframe>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="in"><img src="img/logo.png" alt="Atlantidz" width="130" height="26" loading="lazy"><span>Proibida a venda de bebidas alcoólicas a menores de 18 anos. Cobramos 10% de serviço (opcional).</span><span>Vídeos do mar: <a href="https://mixkit.co/" target="_blank" rel="noopener">Mixkit</a>.</span><a class="topo-volta" href="#manha" id="voltaTopo">Voltar ao topo <b aria-hidden="true">↑</b></a></div></footer>
+
+<div class="fixa" id="fixa"><a class="btn js-pulseira" href="#park">Comprar pulseira</a><a class="btn zap js-whats" href="#" target="_blank" rel="noopener">WhatsApp</a></div>
+
+<!-- Ampliar foto -->
+<dialog class="lb" id="lb" aria-label="Foto ampliada">
+  <button class="fecha" id="lbFecha" aria-label="Fechar">×</button>
+  <button class="lb-nav p" id="lbPrev" aria-label="Foto anterior">‹</button>
+  <button class="lb-nav n" id="lbNext" aria-label="Próxima foto">›</button>
+  <figure><img id="lbImg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt=""><figcaption><h3 id="lbT"></h3><p id="lbD"></p></figcaption></figure>
+</dialog>
+
+<!-- Formulário de reserva de data para evento: os dados chegam prontos no WhatsApp -->
+<dialog class="ev-form" id="evForm" aria-labelledby="evT">
+  <div class="cx">
+    <button class="fecha" id="evFecha" aria-label="Fechar" type="button" style="top:10px;right:10px">×</button>
+    <span class="selo">Eventos</span>
+    <h2 id="evT">Vamos ver se a sua data está livre?</h2>
+    <p class="sub">Conte um pouco do seu evento. Mandamos tudo pronto para o WhatsApp do nosso gestor de eventos, que confere a disponibilidade.</p>
+    <form id="evFormEl" novalidate>
+      <label for="evNome">Seu nome <span class="opc">(opcional)</span></label>
+      <input id="evNome" name="nome" type="text" autocomplete="name" placeholder="Como podemos te chamar?">
+      <label for="evTipo">Tipo do evento</label>
+      <select id="evTipo" name="tipo" required>
+        <option value="">Escolha uma opção</option>
+        <option>Casamento</option><option>Aniversário infantil</option><option>Aniversário</option><option>Formatura</option><option>Evento corporativo</option><option>Confraternização</option><option>Outro</option>
+      </select>
+      <div class="lin">
+        <div><label for="evData">Data do evento</label><input id="evData" name="data" type="date" required></div>
+        <div><label for="evHora">Horário do evento</label><input id="evHora" name="hora" type="time" required></div>
+      </div>
+      <label for="evQtd">Quantidade de pessoas</label>
+      <input id="evQtd" name="qtd" type="number" inputmode="numeric" min="10" max="600" step="1" required placeholder="Entre 10 e 600">
+      <p class="erro" id="evErro" role="alert"></p>
+      <button class="btn zap" type="submit">Enviar para o WhatsApp</button>
+      <p class="aviso">Você será levado ao WhatsApp com a mensagem pronta. É só tocar em enviar.</p>
+    </form>
+    <div class="ok" role="status"><b>Quase lá!</b><p>Abrimos o WhatsApp com os dados do seu evento. É só enviar a mensagem que o gestor de eventos responde com a disponibilidade.</p><p style="margin-top:14px"><a class="btn zap" id="evLink" href="#" target="_blank" rel="noopener">Abrir o WhatsApp de novo</a></p></div>
+  </div>
+</dialog>
+
+<script>
+/* ==== CONFIGURAÇÃO (confirmar com o cliente) ==== */
+const WHATSAPP = "5585994029196";          /* (85) 99402-9196, do cardápio. O Keepo e o site antigo usam 558531208717: confirmar qual vale. */
+const META_PIXEL_ID = "";                  /* preencher para ativar o Pixel da Meta */
+const GOOGLE_TAG_ID = "";                  /* preencher para ativar o Google Ads / GA4 */
+
+/* ==== rastreamento ==== */
+if (META_PIXEL_ID) {
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', META_PIXEL_ID); fbq('track', 'PageView');
+}
+if (GOOGLE_TAG_ID) {
+  const g=document.createElement("script"); g.async=true; g.src="https://www.googletagmanager.com/gtag/js?id="+GOOGLE_TAG_ID; document.head.appendChild(g);
+  window.dataLayer=window.dataLayer||[]; window.gtag=function(){dataLayer.push(arguments)}; gtag("js",new Date()); gtag("config",GOOGLE_TAG_ID);
+}
+const onde = a => a.closest("section,header,.menu-cel,dialog")?.id || (a.closest(".fixa") ? "barra-fixa" : "outro");
+const rastreia = (fb,gt,extra) => { try{ if(window.fbq){fbq('track',fb[0]);fbq('trackCustom',fb[1],extra||{})} if(window.gtag)gtag("event",gt,extra||{}) }catch(e){} };
+const zap = t => "https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(t);
+document.querySelectorAll(".js-whats").forEach(a=>{ a.href = zap("Olá! Vim pelo site da Atlantidz e quero saber mais."); a.addEventListener("click",()=>rastreia(["Contact","CliqueWhatsApp"],"clique_whatsapp",{local:onde(a)})); });
+document.querySelectorAll(".js-pulseira").forEach(a=>a.addEventListener("click",()=>rastreia(["InitiateCheckout","CliquePulseira"],"clique_pulseira",{local:onde(a)})));
+
+/* ==== utilidades ==== */
+const $ = id => document.getElementById(id);
+const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
+const mix=(a,b,t)=>a+(b-a)*t;
+const celular=()=>innerWidth<=900;
+const fino=matchMedia('(hover:hover) and (pointer:fine)').matches;
+
+/* ==== menu ==== */
+const topo=$('topo'), menuBtn=$('menuBtn'), menuCel=$('menuCel');
+function menu(abrir){ menuCel.hidden=!abrir; menuBtn.setAttribute('aria-expanded',abrir); document.body.classList.toggle('menu-aberto',abrir); }
+menuBtn.addEventListener('click',()=>menu(menuCel.hidden));
+menuCel.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>menu(false)));
+
+/* ==== cardápio em fotos: todos os pratos com foto real (fotos do cardápio oficial e do site) ==== */
+const P='img/pratos/';
+const cafe=[
+ {img:P+'croissant.jpg',pos:'50% 42%',cat:'Café da manhã',t:'Croissant de carne de sol e queijo coalho',d:'Croissant crocante com carne de sol desfiada e queijo coalho derretido, servido com café.',alt:'Croissant aberto com carne de sol desfiada e queijo coalho, ao lado de uma xícara de café, sobre uma mesa de madeira'},
+ {img:P+'cuscuz.jpg',pos:'50% 50%',cat:'Café regional',t:'Cuscuz com carne de sol',d:'Cuscuz com carne de sol, requeijão e queijo grelhado. Acompanha café, leite ou suco de laranja.',alt:'Cuscuz nordestino com carne de sol e requeijão sobre uma tábua de madeira, com a praia ao fundo'}];
+const pratos=[
+ {img:P+'jangada.jpg',pos:'50% 50%',cat:'Frutos do mar',t:'Camarões Jangada Atlantidz',d:'Camarões empanados com cream cheese sobre arroz à grega cremoso e batata palha. Serve de 2 a 3 pessoas.',alt:'Panela com camarões empanados sobre arroz cremoso, com batata palha no centro e uma pimenta vermelha'},
+ {img:P+'mariscada.jpg',pos:'50% 50%',cat:'Frutos do mar',t:'Mariscada especial',d:'Filé de peixe, lagosta, camarão, polvo, lula e mexilhão, com arroz de camarão e batatas rústicas. Serve de 3 a 4 pessoas.',alt:'Travessa grande de mariscada com lagosta, camarões, polvo e lula, ao lado de um refratário de arroz de camarão'},
+ {img:P+'risoto.jpg',pos:'50% 50%',cat:'Frutos do mar',t:'Risoto de limão siciliano',d:'Arroz arbóreo com parmesão, polvo e camarão grelhados, farofinha cítrica e molho aromático de camarão.',alt:'Prato fundo de risoto com polvo e camarão grelhados e molho alaranjado, com farofa cítrica'},
+ {img:P+'polvo.jpg',pos:'50% 50%',cat:'Petiscos',t:'Polvo confit',d:'200 g de tentáculos de polvo com vinagrete aromatizado com ervas e batata rústica.',alt:'Prato com tentáculos de polvo, batata rústica e vinagrete de ervas'},
+ {img:P+'camaroes-crocantes.jpg',pos:'50% 50%',cat:'Petiscos',t:'Camarões crocantes',d:'Clássico da casa: 12 camarões empanados na farinha panko, recheados com cream cheese. Acompanha molho tártaro.',alt:'Prato com camarões empanados e um potinho de molho tártaro'},
+ {img:P+'mix-mar.jpg',pos:'50% 60%',cat:'Petiscos',t:'Mix do mar crocante',d:'Camarões, lulas e filé de peixe empanados na farinha panko. Acompanha molho tártaro e geleia de abacaxi.',alt:'Camarões e anéis de lula empanados numa chapa preta, com geleia de abacaxi e uma bebida gelada'},
+ {img:P+'fish-and-chips.jpg',pos:'50% 62%',cat:'Petiscos',t:'Atlantidz Fish and Chips',d:'200 g de filé de peixe fritos no tempurá, com batatas rústicas, cream cheese cítrico e molho tártaro.',alt:'Filés de peixe empanados com batatas rústicas na chapa, e um drink azul com a praia ao fundo'},
+ {img:P+'trinchado.jpg',pos:'50% 50%',cat:'Carnes',t:'Filé trinchado com fritas',d:'200 g de filé mignon ao molho demi glace, com batata frita.',alt:'Tiras de filé mignon com batata frita numa tábua de madeira'},
+ {img:P+'carne-de-sol.jpg',pos:'50% 50%',cat:'Carnes',t:'Carne de sol Atlantidz',d:'300 g de carne de sol, com baião de dois, macaxeira frita, banana empanada, queijo coalho, cebola refogada e paçoca.',alt:'Frigideira com carne de sol, queijo coalho grelhado, cebola refogada e batata frita'},
+ {img:P+'surf-and-turf.jpg',pos:'50% 50%',cat:'Carnes',t:'Surf and Turf',d:'Medalhões de filé mignon ao estilo poivre com 150 g de camarões grelhados, batatas rústicas e arroz branco.',alt:'Prato com camarões grelhados, batatas rústicas e molho'},
+ {img:'img/tilapia.jpg',pos:'50% 55%',cat:'Peixes',t:'Tilápia frita com batata',d:'De 1 a 1,2 kg de tilápia, com baião de dois, batatas fritas e farofa.',alt:'Tilápia frita inteira com batata frita, arroz e salada, em travessa de inox'},
+ {img:'img/parmegiana.jpg',pos:'50% 50%',cat:'Aves',t:'Frango à parmegiana',d:'400 g de filé de frango empanado na panko, com espaguete ao molho de tomate artesanal e muçarela. Acompanha purê.',alt:'Frango à parmegiana gratinado com uma pimenta vermelha, em travessa branca'},
+ {img:P+'salada.jpg',pos:'50% 50%',cat:'Saladas',t:'Salada Atlantidz',d:'Mix de folhas verdes, manga, bacon frito, tomate cereja, parmesão, torradas e molho balsâmico.',alt:'Prato de salada com folhas verdes, manga, tomate cereja e torradas'},
+ {img:P+'burger.jpg',pos:'50% 50%',cat:'Sanduíches',t:'Cheddar Burger',d:'Pão brioche, 150 g de blend da casa, cebola caramelizada, bacon crocante e queijo cheddar. Acompanha batata frita e molho smoke.',alt:'Hambúrguer com queijo cheddar e bacon num pão brioche, com batata frita num copinho'}];
+const grupos={cafe:cafe,pratos:pratos};
+function cartao(d,set,i){ return '<article class="pcard painel sobe" tabindex="0" role="button" aria-label="Ver foto maior: '+d.t+'" data-set="'+set+'" data-i="'+i+'"><figure class="ph"><img src="'+d.img+'" alt="'+d.alt+'" loading="lazy" style="object-position:'+d.pos+'"><span class="ver">Ver foto</span></figure><div class="pb"><small>'+d.cat+'</small><h3>'+d.t+'</h3><p>'+d.d+'</p></div></article>'; }
+$('gridCafe').innerHTML=cafe.map((d,i)=>cartao(d,'cafe',i)).join('');
+$('gridPratos').innerHTML=pratos.map((d,i)=>cartao(d,'pratos',i)).join('');
+
+/* ==== ampliar foto: toque ou clique abre, Esc fecha, setas passam (sem deslizar de lado) ==== */
+const lb=$('lb'), lbImg=$('lbImg'); let lbLista=[], lbPos=0;
+function lbMostra(){ const d=lbLista[lbPos]; lbImg.src=d.img; lbImg.alt=d.alt||d.t; $('lbT').textContent=d.t; $('lbD').textContent=d.d; const mais=lbLista.length>1; $('lbPrev').hidden=!mais; $('lbNext').hidden=!mais; }
+function lbAbre(lista,i){ lbLista=lista; lbPos=i; lbMostra(); if(lb.showModal) lb.showModal(); else lb.setAttribute('open',''); rastreia(["ViewContent","VerFoto"],"ver_foto",{item:lista[i].t}); }
+function lbPasso(n){ lbPos=(lbPos+n+lbLista.length)%lbLista.length; lbImg.style.opacity=0; setTimeout(()=>{ lbMostra(); lbImg.style.opacity=1; },140); }
+lbImg.style.transition='opacity .18s';
+$('lbPrev').addEventListener('click',e=>{e.stopPropagation();lbPasso(-1)}); $('lbNext').addEventListener('click',e=>{e.stopPropagation();lbPasso(1)});
+$('lbFecha').addEventListener('click',()=>lb.close());
+lb.addEventListener('click',e=>{ if(e.target===lb) lb.close(); });
+lb.addEventListener('keydown',e=>{ if(e.key==='ArrowLeft') lbPasso(-1); if(e.key==='ArrowRight') lbPasso(1); });
+document.addEventListener('click',e=>{ const c=e.target.closest('.pcard'); if(c){ const set=c.dataset.set, i=+c.dataset.i; lbAbre(grupos[set],i); return; } const f=e.target.closest('figure[data-lb]'); if(f){ lbAbre([{img:f.dataset.lb,t:f.dataset.t,d:f.dataset.d,alt:f.querySelector('img')?f.querySelector('img').alt:f.dataset.t}],0); } });
+document.addEventListener('keydown',e=>{ if((e.key==='Enter'||e.key===' ')&&e.target.classList&&e.target.classList.contains('pcard')){ e.preventDefault(); e.target.click(); } });
+
+/* ==== formulário de reserva de data: os dados vão prontos para o WhatsApp ==== */
+const ev=$('evForm'), evEl=$('evFormEl'), evErro=$('evErro');
+const hoje=new Date(); const iso=new Date(hoje.getTime()-hoje.getTimezoneOffset()*60000).toISOString().slice(0,10); $('evData').min=iso;
+function evAbre(){ ev.classList.remove('enviado'); evErro.textContent=''; if(ev.showModal) ev.showModal(); else ev.setAttribute('open',''); rastreia(["InitiateCheckout","AbriuFormEvento"],"abriu_form_evento",{local:'eventos'}); setTimeout(()=>$('evNome').focus(),60); }
+document.querySelectorAll('.js-evento').forEach(a=>a.addEventListener('click',e=>{ e.preventDefault(); menu(false); evAbre(); }));
+$('evFecha').addEventListener('click',()=>ev.close());
+ev.addEventListener('click',e=>{ if(e.target===ev) ev.close(); });
+function mensagemEvento(v){ const d=new Date(v.data+'T12:00:00'); const dia=d.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+  const l=['Olá! Vim pelo site da Atlantidz e quero verificar se uma data está disponível para um evento.','', '• Tipo do evento: '+v.tipo, '• Data: '+dia+' ('+d.toLocaleDateString('pt-BR')+')', '• Horário do evento: '+v.hora, '• Quantidade de pessoas: '+v.qtd]; if(v.nome) l.push('• Nome: '+v.nome); l.push('','Aguardo a confirmação da disponibilidade. Obrigado!'); return l.join('\n'); }
+evEl.addEventListener('submit',e=>{ e.preventDefault(); evErro.textContent='';
+  const v={nome:$('evNome').value.trim(),tipo:$('evTipo').value,data:$('evData').value,hora:$('evHora').value,qtd:$('evQtd').value};
+  if(!v.tipo){ evErro.textContent='Escolha o tipo do evento.'; $('evTipo').focus(); return; }
+  if(!v.data){ evErro.textContent='Escolha a data do evento.'; $('evData').focus(); return; }
+  if(v.data<iso){ evErro.textContent='A data precisa ser a partir de hoje.'; $('evData').focus(); return; }
+  if(!v.hora){ evErro.textContent='Informe o horário do evento.'; $('evHora').focus(); return; }
+  const q=parseInt(v.qtd,10); if(!q||q<10||q>600){ evErro.textContent='Informe a quantidade de pessoas, entre 10 e 600.'; $('evQtd').focus(); return; }
+  v.qtd=String(q); const url=zap(mensagemEvento(v)); $('evLink').href=url; window.__ultimaMsgEvento=url;
+  rastreia(["Lead","EnviouFormEvento"],"enviou_form_evento",{tipo:v.tipo,pessoas:q});
+  ev.classList.add('enviado'); const w=window.open(url,'_blank','noopener'); });
+evEl.querySelectorAll('input,select').forEach(c=>{ c.addEventListener('blur',()=>c.classList.add('tocado')); c.addEventListener('change',()=>c.classList.add('tocado')); });
+evEl.addEventListener('submit',()=>evEl.querySelectorAll('input,select').forEach(c=>c.classList.add('tocado')),true);
+
+/* ==== O DIA: cinco vídeos reais do mar, do nascer ao pôr do sol. A rolagem acompanha o dia (8h às 18h). ==== */
+const cenas=[...document.querySelectorAll('#dia video')];
+const centros=[0,.20,.42,.62,.82];                    /* nascer · meio-dia · tarde · luz dourada · pôr do sol (que fica até o fim) */
+const filtros=['saturate(1.1) contrast(1.02)','saturate(1.05)','saturate(1.0)','sepia(.18) saturate(1.15)','saturate(1.15) contrast(1.05)'];
+function carrega(i){ const v=cenas[i]; if(v&&!v.dataset.ok){ v.dataset.ok='1'; v.src='img/dia/'+v.dataset.n+(celular()?'-360':'-720')+'.mp4'; v.load(); } }
+carrega(0); setTimeout(()=>carrega(1),1500);
+function peso(i,p){ const c=centros, ult=c.length-1; if(i===ult) return clamp(1-(c[i]-p)/(c[i]-c[i-1]),0,1); if(p<c[i]) return i===0?1:clamp(1-(c[i]-p)/(c[i]-c[i-1]),0,1); return clamp(1-(p-c[i])/(c[i+1]-c[i]),0,1); }
+function dia(){
+  const max=Math.max(document.documentElement.scrollHeight-innerHeight,1), p=clamp(scrollY/max,0,1);
+  cenas.forEach((v,i)=>{ const w=peso(i,p); if(p>=centros[i]-.38) carrega(i);
+    v.style.opacity=w.toFixed(3); v.style.filter=filtros[i]; v.style.transform='scale('+(1.04+p*.08).toFixed(3)+')';
+    if(w>0){ if(v.paused&&v.dataset.ok) v.play().catch(()=>{}); } else if(!v.paused){ v.pause(); } });
+}
+
+/* ==== foto da abertura e fotos em moldura: sobem devagar dentro da moldura (só vertical) ==== */
+const molduras=[...document.querySelectorAll('.foto:not(.cs) img')];
+function parallax(){
+  molduras.forEach(im=>{ const r=im.parentElement.getBoundingClientRect(); if(r.bottom<0||r.top>innerHeight) return; const off=(r.top+r.height/2-innerHeight/2)/innerHeight; im.style.translate='0 '+(off*-16).toFixed(1)+'px'; }); }
+
+/* ==== revelar ao entrar na tela, números que contam e menu que acompanha a seção ==== */
+const sobes=[...document.querySelectorAll('.sobe')]; let sobeIdx=0;
+function conta(el){ const n=+el.dataset.conta; if(!n||el.dataset.feito) return; el.dataset.feito=1; const t0=performance.now(); (function f(t){ const k=clamp((t-t0)/1100,0,1), e=1-Math.pow(1-k,3); el.textContent='R$ '+Math.round(n*e); if(k<1) requestAnimationFrame(f); })(t0); }
+function revela(){ sobes.forEach(el=>{ if(!el.classList.contains('vis')&&el.getBoundingClientRect().top<innerHeight*.9){ el.style.transitionDelay=((sobeIdx++%4)*80)+'ms'; el.classList.add('vis'); el.querySelectorAll('[data-conta]').forEach(conta); } }); }
+const secs=['cafe','park','almoco','eventos','visite'].map(id=>$(id)), links=[...document.querySelectorAll('.topo nav a')];
+function espiao(){ let ativo=-1; secs.forEach((s,i)=>{ const r=s.getBoundingClientRect(); if(r.top<innerHeight*.45&&r.bottom>innerHeight*.3) ativo=i; }); links.forEach((a,i)=>a.classList.toggle('on',i===ativo)); }
+
+/* ==== toque e mouse: brilho que segue o dedo, inclinação 3D nos cartões e onda nos botões ==== */
+document.addEventListener('pointermove',e=>{ const p=e.target.closest&&e.target.closest('.painel'); if(!p) return; const r=p.getBoundingClientRect(); p.style.setProperty('--mx',(e.clientX-r.left)+'px'); p.style.setProperty('--my',(e.clientY-r.top)+'px');
+  if(fino&&p.classList.contains('pcard')){ const x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5; p.style.transform='perspective(900px) rotateX('+(-y*6).toFixed(2)+'deg) rotateY('+(x*7).toFixed(2)+'deg) translateY(-6px)'; } });
+document.addEventListener('pointerout',e=>{ const p=e.target.closest&&e.target.closest('.pcard'); if(p&&!p.contains(e.relatedTarget)) p.style.transform=''; });
+document.addEventListener('pointerdown',e=>{ const b=e.target.closest&&e.target.closest('.btn'); if(!b) return; const r=b.getBoundingClientRect(), s=Math.max(r.width,r.height)*2, o=document.createElement('span'); o.className='onda'; o.style.cssText='width:'+s+'px;height:'+s+'px;left:'+(e.clientX-r.left-s/2)+'px;top:'+(e.clientY-r.top-s/2)+'px'; b.appendChild(o); setTimeout(()=>o.remove(),700); });
+
+const carro=$('carro'), trilho=$('carroTrilho'), carTit=$('carroTit'), cards=[...trilho.querySelectorAll('.cs')];
+function carrossel(){ const r=carro.getBoundingClientRect(), total=r.height-innerHeight; if(r.bottom<-50||r.top>innerHeight+50) return;
+  const p=clamp(-r.top/total,0,1), sobra=Math.max(trilho.scrollWidth-innerWidth,0), x=-p*sobra; trilho.style.transform='translateX('+x.toFixed(1)+'px)';
+  carTit.style.transform='translate('+(-p*(carTit.offsetWidth-innerWidth*.6)).toFixed(1)+'px,-52%)';
+  const cx=innerWidth/2;
+  cards.forEach(c=>{ const left=c.offsetLeft+x, d=clamp((left+c.offsetWidth/2-cx)/(innerWidth*.55),-1.4,1.4), a=Math.min(Math.abs(d),1);
+    c.style.transform='translateY('+(a*34).toFixed(1)+'px) rotateY('+(-d*30).toFixed(1)+'deg) scale('+(1-a*.2).toFixed(3)+')';
+    c.style.opacity=(1-a*.45).toFixed(2); c.style.zIndex=Math.round((1-a)*10);
+    const im=c.querySelector('img'); if(im) im.style.translate=(d*-9).toFixed(1)+'% 0'; }); }
+document.getElementById('voltaTopo').addEventListener('click',e=>{ e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); });
+/* ==== laço principal ==== */
+const fixa=$('fixa');
+function tudo(){ topo.classList.toggle('fundo',scrollY>40); dia(); parallax(); carrossel(); revela(); espiao(); fixa.classList.toggle('some',scrollY<innerHeight*.5); }
+let agendado=false; const pede=()=>{ if(agendado) return; agendado=true; requestAnimationFrame(()=>{agendado=false;tudo()}); };
+addEventListener('scroll',pede,{passive:true}); addEventListener('resize',pede);
+tudo();
+if(document.fonts) document.fonts.ready.then(tudo);
+addEventListener('load',tudo);
+</script>
+</body>
+</html>
